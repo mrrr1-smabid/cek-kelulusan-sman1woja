@@ -1,25 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Cek Kelulusan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cek Kelulusan - SMA Negeri 1 Woja</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 40px; }
-    input { padding: 10px; width: 300px; }
-    button { padding: 10px 20px; margin-top: 10px; }
-    #hasil { margin-top: 20px; font-size: 18px; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-weight: 400;
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      padding: 12px 15px;
+      width: 100%;
+      max-width: 350px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff9800;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e68900;
+    }
+
+    #hasil {
+      margin-top: 30px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      text-align: left;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    #hasil b {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    #hasil strong.lulus {
+      color: #4caf50;
+    }
+
+    #hasil strong.tidak-lulus {
+      color: #f44336;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Cek Kelulusan 2025</h1>
+
+  <h1>SMA NEGERI 1 WOJA</h1>
+  <h2>Cek Kelulusan Tahun Pelajaran 2024/2025</h2>
+
   <input type="text" id="nomor" placeholder="Masukkan Nomor Kartu Ujian">
-  <br>
   <button onclick="cekKelulusan()">Cek Sekarang</button>
+
   <div id="hasil"></div>
+
+  <footer>
+    &copy; 2025 SMA Negeri 1 Woja | Pengembangan oleh Tim Media SMAN 1 Woja
+  </footer>
 
   <script>
     let data = {};
 
-    // Ambil data dari file CSV yang di-host langsung
     fetch('data.csv')
       .then(response => response.text())
       .then(text => {
@@ -35,9 +137,13 @@
       const nomor = document.getElementById('nomor').value.trim();
       const hasil = document.getElementById('hasil');
       if (data[nomor]) {
-        hasil.innerHTML = `<b>${data[nomor].nama}</b><br>Status: <strong>${data[nomor].status}</strong>`;
+        const statusClass = data[nomor].status.toLowerCase().includes("lulus") ? "lulus" : "tidak-lulus";
+        hasil.innerHTML = `
+          <b>${data[nomor].nama}</b><br>
+          Status: <strong class="${statusClass}">${data[nomor].status}</strong>
+        `;
       } else {
-        hasil.innerHTML = `Nomor kartu ujian tidak ditemukan.`;
+        hasil.innerHTML = `<strong>Nomor kartu ujian tidak ditemukan.</strong>`;
       }
     }
   </script>
