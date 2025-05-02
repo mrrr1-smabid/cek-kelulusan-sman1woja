@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cek Kelulusan</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 40px; }
+    input { padding: 10px; width: 300px; }
+    button { padding: 10px 20px; margin-top: 10px; }
+    #hasil { margin-top: 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>Cek Kelulusan 2025</h1>
+  <input type="text" id="nomor" placeholder="Masukkan Nomor Kartu Ujian">
+  <br>
+  <button onclick="cekKelulusan()">Cek Sekarang</button>
+  <div id="hasil"></div>
+
+  <script>
+    let data = {};
+
+    // Ambil data dari file CSV yang di-host langsung
+    fetch('data.csv')
+      .then(response => response.text())
+      .then(text => {
+        text.split('\n').forEach((baris, i) => {
+          if (i > 0 && baris.trim()) {
+            let [nomor, nama, status] = baris.split(',');
+            data[nomor.trim()] = { nama, status };
+          }
+        });
+      });
+
+    function cekKelulusan() {
+      const nomor = document.getElementById('nomor').value.trim();
+      const hasil = document.getElementById('hasil');
+      if (data[nomor]) {
+        hasil.innerHTML = `<b>${data[nomor].nama}</b><br>Status: <strong>${data[nomor].status}</strong>`;
+      } else {
+        hasil.innerHTML = `Nomor kartu ujian tidak ditemukan.`;
+      }
+    }
+  </script>
+</body>
+</html>
