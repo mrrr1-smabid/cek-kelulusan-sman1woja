@@ -134,18 +134,21 @@
       });
 
     function cekKelulusan() {
-      const nomor = document.getElementById('nomor').value.trim();
-      const hasil = document.getElementById('hasil');
-      if (data[nomor]) {
-        const statusClass = data[nomor].status.toLowerCase().includes("lulus") ? "lulus" : "tidak-lulus";
-        hasil.innerHTML = `
-          <b>${data[nomor].nama}</b><br>
-          Status: <strong class="${statusClass}">${data[nomor].status}</strong>
-        `;
-      } else {
-        hasil.innerHTML = `<strong>Nomor kartu ujian tidak ditemukan.</strong>`;
-      }
+    const nomor = document.getElementById('nomor').value.trim();
+    const hasil = document.getElementById('hasil');
+
+    if (data[nomor]) {
+      const status = data[nomor].status.trim().toLowerCase();
+      const statusClass = status === "lulus" ? "lulus" : "tidak-lulus";
+
+      hasil.innerHTML = `
+      <b>${data[nomor].nama}</b><br>
+      Status: <strong class="${statusClass}">${data[nomor].status}</strong>
+      `;
+    } else {
+      hasil.innerHTML = `<strong>Nomor kartu ujian tidak ditemukan.</strong>`;
     }
+  }
   </script>
 </body>
 </html>
